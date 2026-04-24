@@ -373,19 +373,22 @@ quiz = [
 import mysql.connector
 import os
 
+db = None
+cursor = None
+
 try:
     db = mysql.connector.connect(
-        host=os.getenv("DB_HOST", "localhost"),
-        user=os.getenv("DB_USER", "root"),
-        password=os.getenv("DB_PASS", "priyan123"),
-        database=os.getenv("DB_NAME", "cyber_safety"),
-        port=int(os.getenv("DB_PORT", 3306))
+        host=os.environ["DB_HOST"],
+        user=os.environ["DB_USER"],
+        password=os.environ["DB_PASS"],
+        database=os.environ["DB_NAME"],
+        port=int(os.environ.get("DB_PORT", 3306))
     )
 
     cursor = db.cursor(buffered=True)
     print("✅ Database Connected")
 
-except mysql.connector.Error as err:
+except Exception as err:
     print("❌ Database Error:", err)
     db = None
     cursor = None
